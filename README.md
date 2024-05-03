@@ -2,6 +2,7 @@
 Proyecto Laravel 2 Evaluacion - Alberto Tena
 
 # indice:
+*[Título e imagen de portada](#Título-e-imagen-de-portada)
 *[Instalación Laravel](## Instalación Laravel)
 *[Creacion de la pagina](## Creacion de la pagina)
 
