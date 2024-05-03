@@ -10,7 +10,7 @@ class MainController extends Controller
     public function index(){
         $num = rand(1,100);
         $nombre = "Alberto";
-        return view('index',compact('num','nombre'));
+        return view('Proyectos.index',compact('num','nombre'));
     }
     //
 }

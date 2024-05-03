@@ -91,4 +91,60 @@ composer update
 php artisan breeze:install
 ~~~
 
+en nuestro index vamos a añadir esta parte debajo de tittle
 
+
+@vite("resources/css/app.css");
+
+
+y ejecutaremos el comando:
+
+
+npm run dev
+
+
+guardaremos en el archivo taiwing.config los themas que vamos a usar para las secciones del layout:
+
+
+height:{
+                "10v":"10vh",
+                "15v":"15vh",
+                "65v":"65vh",
+            },
+            colors:{
+                "header": "#BE0F34",
+                "nav": "#FFFFFF",
+                "main": "#DCE5F4",
+                "footer":"#E5E5E5",
+
+	}
+
+una vez hecho esto crearemos un directorio llamda layouts donde guardaremos el index que teniamos dondole el nombre de layout. todo esto ira en las vistas
+en la parte de componentes.
+
+crearemos 3 ficheros php para la parte del header, nav, footer y a todas estas las llamaremos con la siguiente etiqueta:
+
+
+<x-layouts.header />
+
+
+con esta etiqueta hacemos referencia a las vistas y dentro de estas al directorio layouts cambiando el nombre por el archivo php que queremos llamar, esto nos hace
+evitar tener el mismo codigo por varias partes y que en caso de fallo poder encontrarlo y modificarlo de un solo archivo 
+
+para los themas y botones descargaremos daisyui con el siguiente comando:
+
+
+npm i -D daisyui@latest
+
+y volveremos a nuestra config del taiwibg para indicarle en la parte de los plugins:
+
+
+plugins: [forms, require("daisyui")],
+
+
+
+ya con todo esto daremos las formas y buscaremos en la pagina de daisyui que themas queremos utilizar en nuestra pagina web:
+https://daisyui.com/components/footer/
+
+
+buscaremos las vistas de la parte de login y register  y modificaremos los layouts por el nuestro creado.
