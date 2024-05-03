@@ -2,11 +2,6 @@
 >[!NOTE]
 >Proyecto Laravel 2 Evaluacion - Alberto Tena
 
-#indice:
-
-*[Instalación Laravel](#Instalación-Laravel)
-
-*[Instalación Laravel](#Creacion-de-la-pagina)
 
 
 ## Instalación Laravel
