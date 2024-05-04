@@ -13,12 +13,10 @@ use App\Http\Controllers\MainController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get("Main",[MainController::class,'index']);
+Route::get("/",[MainController::class,'index']);
 Route::view("about","Proyectos.about");
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view("proyecto","Proyectos.proyecto")
+->middleware("auth");
 
 Route::get('/dashboard', function () {
     return view('dashboard');

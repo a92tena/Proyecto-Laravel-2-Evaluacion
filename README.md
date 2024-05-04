@@ -199,3 +199,70 @@ docker compose up -d
 ~~~
 
 
+
+### Migraciones
+Para crear las migraciones con la tabla almunos debemos de poner el siguiente comando
+
+
+
+php artisan make:migration alumnos --create=alumnos
+
+
+
+y cuando modifiquemos los campos de la tabla deberemos de hacer primero:
+
+
+php artisan migrate
+
+
+y si modificamos algo de los campos:
+
+
+php artisan migrate:fresh
+
+
+Una vez Creada las tablas vamosa  modificar el header para que un usuario se pueda registrar y entrar y vamos a controlar el que se muestra por pantalla
+
+
+@guest()
+       <a href="/login" class="btn glass">Login</a>
+        <a href="/register" class="btn glass">Register</a>
+        @endguest
+        @auth
+            <h1 class="text3xl text-white">{{auth()->user()->name}}</h1>
+            <form action="{{route("logout")}}" method="post">
+                @csrf
+                <input class="btn glass" type="submit" value="logout">
+            </form>
+        @endauth
+
+
+Como se puede apreciar las etiquetas @guest es para decir el que se puede ver cuando no se esta registrado y @auth  una vez se este registrado 
+tambien vamos a modificar el boton proyectos para que solo se tenga acceso una vez que se esta registrado:
+
+
+ @auth
+    <a class= "btn  btn-primary " href="proyecto">Proyectos</a>
+    @endauth
+
+
+Y para proteger la pagina de proyectos del alumno nos iremos al archivo web donde vamosa  poner este comando para que solo sea accesible si estamos registrados y dentro:
+
+
+Route::view("proyecto","Proyectos.proyecto")
+->middleware("auth");
+
+
+AVISO
+Cada vez que levantemos la pagina devemos tener una terminarl npm con el comando y otra de nombre serve con el comando:
+
+npm run dev
+~~~
+terminal npm:
+npm run dev
+
+Terminal server:
+ php artisan serve
+~~~
+
+
