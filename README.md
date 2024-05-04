@@ -160,4 +160,42 @@ https://daisyui.com/components/footer/
 
 ## Base de Datos 
 ### Crear Base de Datos y conectarla con el formulario de la pagina
->
+>Primera vamos a crear nuestro archivo de docker para tener la imagen de la base de datos, en la carpeta del proyecto que sera
+	carpeta del proyecto -> new -> docker.file -> refactore-> rename-> docker-compose.yaml
+
+>Dentro vamos a poner lo siguietne:
+
+~~~
+version: "3.8"
+services:
+  mysql:
+    image: mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - 33306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD_ROOT}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=mysql
+      - PMA_ARBITRARY=1
+    depends_on:
+      - mysql
+~~~
+
+
+>Y modificaremos los archivos .env y el .gitingnore para modificar tando los datos del tipo de la base de datos como indicar al git el mysql. Una vez hecho deberemos abrir nuestro
+docker Desktop como administrador y pondremos el siguietne comando para correr la imagen:
+
+~~~
+docker compose up -d
+~~~
+
+
