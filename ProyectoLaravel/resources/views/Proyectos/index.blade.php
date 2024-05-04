@@ -1,5 +1,5 @@
 <x-layouts.layout>
-    <div class="hero min-h-screen max-h-full bg-base-200">
+    <div class="hero h-full bg-base-200">
         <div class="hero-content flex-col lg:flex-row-reverse">
             <img src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg" class="max-w-sm rounded-lg shadow-2xl" />
             <div>
