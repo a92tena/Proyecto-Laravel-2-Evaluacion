@@ -256,6 +256,129 @@ Route::view("proyecto","Proyectos.proyecto")
 ->middleware("auth");
 
 
+
+Una vez hecho esto vamos a ir a crear los modelos para manejar los datos de la base  y poder darle forma dentro de la pagina
+Primero vamos a usar el comando:
+
+
+php artisan make:model Alumno --all
+
+
+
+Ahora tenemos el seeder, factory y model con todas sus vistas controladores,
+primero vamos a añadir esta ruta en la web:
+
+
+route::resource("alumnos",AlumnoController::class);
+
+
+Despues vamos a la parte database en las migraciones el create_alumno y añadimos:
+
+
+Schema::create('alumnos', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->string('DNI');
+            $table->integer('edad');
+            $table->string('email');
+            $table->timestamps();
+        });
+
+
+Despues vamos a la parte factories y añadimos:
+
+
+// Para generar dnis aleatorios 
+private function get_dni(): string
+    {
+        $number = fake()->numberBetween(10000000, 99999999);
+        $letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+        $letra = $letras[$number % 23];
+        return "$number-$letra$letra";
+    }
+
+//para generar datos aleatorios en nuestra Base
+public function definition(): array
+    {
+        return [
+            "nombre"=>fake()->name(),
+            "email"=>fake()->email(),
+            "edad"=>fake()->numberBetween(18, 100),
+            "dni"=>$this->get_dni(),
+        ];
+    }
+
+Y ahora nos vamos al seeders y abrimos el de alumno para invocar  un numero de vez al factory:
+
+
+ public function run(): void
+    {
+       Alumno::factory(50)->create();
+    }
+
+
+Y vamos al database seeder para colocar la llamada:
+
+
+//Dentro de la funcion run 
+$this->call([
+            AlumnoSeeder::class
+        ]);
+
+
+Y nos quedara poner el comando para arrancar todo:
+
+
+
+php artisan migrate:fresh --seed
+
+
+
+Vamos al archivo .env y buscamos APP_FAKER_LOCALE= y pones es_ES
+Ahora vamos a alumnoController para recoger los datos:
+
+
+
+ public function index()
+    {
+        $alumnos = Alumno::all();
+        return view('alumno.index', compact('alumnos'));
+        //
+    }
+
+
+Nos iremos a resources->views ->new->directory-> alumnos 
+para meter la pagina de los alumnos
+
+<x-layouts.layout>
+<table>
+    <caption>Listado de alumnos</caption>
+    <tr>
+        <th>Nombre</th>
+        <th>DNI</th>
+        <th>Edad</th>
+        <th>Email</th>
+    </tr>
+    @foreach($alumnos as $alumnos)
+        <tr>
+            <th>{{$alumnos->nombre}}</th>
+            <th>{{$alumnos->DNI}}</th>
+            <th>{{$alumnos->edad}}</th>
+            <th>{{$alumnos->email}}</th>
+        </tr>
+    @endforeach
+</table>
+</x-layouts.layout>
+
+
+e iremos al layout de nav para ponerle la direccion al boton alumnos = alumnos.index
+
+
+
+
+
+
+
 AVISO
 Cada vez que levantemos la pagina devemos tener una terminarl npm con el comando y otra de nombre serve con el comando:
 
