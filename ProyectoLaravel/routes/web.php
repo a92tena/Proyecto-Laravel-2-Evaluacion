@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
@@ -17,6 +18,7 @@ Route::get("/",[MainController::class,'index']);
 Route::view("about","Proyectos.about");
 Route::view("proyecto","Proyectos.proyecto")
 ->middleware("auth");
+route::resource("alumnos",AlumnoController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
