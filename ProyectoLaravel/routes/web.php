@@ -14,7 +14,7 @@ use App\Http\Controllers\MainController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get("/",[MainController::class,'index']);
+Route::get("/",[MainController::class,'index'])->name("main");
 Route::view("about","Proyectos.about");
 Route::view("proyecto","Proyectos.proyecto")
 ->middleware("auth");
