@@ -9,4 +9,6 @@ class Alumno extends Model
 {
     use HasFactory;
 
+    protected $fillable=["nombre", "DNI", "edad", "email"];
+
 }
