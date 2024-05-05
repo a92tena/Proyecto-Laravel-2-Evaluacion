@@ -1,0 +1,31 @@
+                    mysql-1       | 2024-05-05T16:38:12.770159Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+                    mysql-1       | mysqld: Table 'mysql.plugin' doesn't exist
+                    mysql-1       | 2024-05-05T16:38:14.109112Z 0 [ERROR] [MY-010735] [Server] Could not open the mysql.plugin table. Please perform the MySQL upgrade procedure.
+                    mysql-1       | 2024-05-05T16:38:14.109362Z 0 [Warning] [MY-010441] [Server] Failed to open optimizer cost constant tables
+                    mysql-1       | 2024-05-05T16:38:14.109569Z 0 [Warning] [MY-010441] [Server] Failed to open optimizer cost constant tables
+                    mysql-1       | 2024-05-05T16:38:14.109731Z 0 [Warning] [MY-010441] [Server] Failed to open optimizer cost constant tables
+                    mysql-1       | 2024-05-05T16:38:14.109913Z 0 [Warning] [MY-010441] [Server] Failed to open optimizer cost constant tables
+                    mysql-1       | 2024-05-05T16:38:14.110037Z 0 [Warning] [MY-010441] [Server] Failed to open optimizer cost constant tables
+                    mysql-1       | 2024-05-05T16:38:14.110149Z 0 [Warning] [MY-010441] [Server] Failed to open optimizer cost constant tables
+                    mysql-1       | 2024-05-05T16:38:14.110291Z 0 [Warning] [MY-010441] [Server] Failed to open optimizer cost constant tables
+                    mysql-1       | 2024-05-05T16:38:15.338781Z 0 [Warning] [MY-010015] [Repl] Gtid table is not ready to be used. Table 'mysql.gtid_executed' cannot be opened.
+                    mysql-1       | 2024-05-05T16:38:17.170129Z 0 [Warning] [MY-010015] [Repl] Gtid table is not ready to be used. Table 'mysql.gtid_executed' cannot be opened.
+                    mysql-1       | 2024-05-05T16:38:17.247170Z 0 [Warning] [MY-013595] [Server] Failed to initialize TLS for channel: mysql_main. See below for the description of exact issue.
+                    mysql-1       | 2024-05-05T16:38:17.247236Z 0 [Warning] [MY-010069] [Server] Failed to set up SSL because of the following SSL library error: SSL context is not usable without certificate and private key
+                    mysql-1       | mysqld: Cannot change permissions of the file 'private_key.pem.temp' (OS errno 1 - Operation not permitted)
+                    mysql-1       | 2024-05-05T16:38:17.490560Z 0 [ERROR] [MY-010295] [Server] Could not set file permission for private_key.pem
+                    mysql-1       | 2024-05-05T16:38:17.490585Z 0 [ERROR] [MY-010119] [Server] Aborting
+                    mysql-1       | 2024-05-05T16:38:21.132796Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.4.0)  MySQL Community Server - GPL.
+                    mysql-1       | 2024-05-05T16:38:21.132824Z 0 [System] [MY-015016] [Server] MySQL Server - end.
+mysql-1 exited with code 1
+                    mysql-1       | 2024-05-05 16:31:13+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.0-1.el8 started.
+                    mysql-1       | 2024-05-05 16:31:14+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+                    mysql-1       | 2024-05-05 16:31:14+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.0-1.el8 started.
+                    mysql-1       | ln: failed to create symbolic link '/var/lib/mysql/mysql.sock': Operation not permitted
+                    mysql-1       | 2024-05-05T16:31:15.197718Z 0 [System] [MY-015015] [Server] MySQL Server - start.
+                    mysql-1       | 2024-05-05T16:31:15.397069Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.4.0) starting as process 1
+                    mysql-1       | 2024-05-05T16:31:15.409102Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /var/lib/mysql/ is case insensitive
+                    mysql-1       | 2024-05-05T16:31:15.440883Z 0 [Warning] [MY-000054] [Server] World-writable config file '/var/lib/mysql/auto.cnf' is ignored.
+                    mysql-1       | 2024-05-05T16:31:15.446028Z 0 [Warning] [MY-010107] [Server] World-writable config file '/var/lib/mysql/auto.cnf' has been removed.
+                    mysql-1       | 2024-05-05T16:31:15.446447Z 0 [Warning] [MY-010075] [Server] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: e49028d3-0afc-11ef-9c9c-0242ac140002.
+                    mysql-1       | 2024-05-05T16:31:15.512651Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has

@@ -1,3 +1,5 @@
+
+
 version: "3.9"
 services:
   mysql:
@@ -20,3 +22,5 @@ services:
       - PMA_ARBITRARY=1
     depends_on:
       - mysql
+
+
