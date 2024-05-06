@@ -33,6 +33,7 @@ class AlumnoController extends Controller
     {
         $datos =$request->input();
         $alumno = new Alumno($datos);
+        session()->flash("status", "Se ha creado el alumno $alumno->nombre");
         $alumno->save();
         return redirect()->route('alumnos.index');
         //
@@ -51,6 +52,7 @@ class AlumnoController extends Controller
      */
     public function edit(Alumno $alumno)
     {
+        return view("alumnos.create", compact("alumno"));
         //
     }
 
@@ -59,6 +61,10 @@ class AlumnoController extends Controller
      */
     public function update(UpdateAlumnoRequest $request, Alumno $alumno)
     {
+        $datos =$request->input();
+        $alumno->update($datos);
+        session()->flash("status", "Se ha actualizado el alumno $alumno->id , con nombre $alumno->nombre ");
+        return redirect()->route('alumnos.index');
         //
     }
 
@@ -67,6 +73,10 @@ class AlumnoController extends Controller
      */
     public function destroy(Alumno $alumno)
     {
+
+        session()->flash("status", "Se ha borrado el alumno $alumno->id con nombre: $alumno->nombre");
+        $alumno->delete();
+        return redirect()->route('alumnos.index');
         //
     }
 }
