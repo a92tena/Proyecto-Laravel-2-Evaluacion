@@ -542,6 +542,194 @@ Si queremos poner nombre que cambien dependiendo del idio ejemplo en la tabla de
 
 >Y nos quedamos ene l min 56 de la 4 tutoria .......
 
+>Ahora le vamos a dar funciones a nuestros botones de guardar y cancelar en el formulario ed nuevo alumno
+para ello iremos al create en la carpeta alumnos y modificaremos el submit de cancelar y pondremos:
+
+~~~
+<a href="{{route("alumnos.index")}}" class="btn btn-primary m-2" >Cancelar</a>
+~~~
+
+>Y ahora vamos a modificar el de guardar para que nos avise de que hemos guardado un nuevo alumno, para ellos vamos a crear variables de sesion, nos vamos al controlador del alumno y ponemos:
+
+~~~
+session()->flash("status", "Se ha creado el alumno $alumno->nombre");
+~~~
+
+>Y nos vamos al index -> de la carpeta alumnos, para decirle que si es una sesion nos lo indique, modificaremos esto en la parte de arriba:
+
+~~~
+ <h1 class="text-4xl text-red-800 text-center">Listado de alumnos</h1>
+    @if(session()->get("status"))
+        <div role="alert" class="alert alert-info">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span>{{session()->get("status")}}</span>
+        </div>
+    @endif
+    <a href="{{route("alumnos.create")}}" class="btn btn-primary mx-10">Nuevo Alumno</a>
+~~~
+
+>El contenido del div dentro del if lo sacamos de : https://daisyui.com/components/alert/
+
+>Ahora vamos a darle funcionalidad a los botones de editar y borrar de la tabla de alumnos, vamos al index y a los botones que hemos creado antes, primero editar y pondremos:
+
+~~~
+<td>
+                <a href="{{route("alumnos.edit" , $alumno->id)}}">
+
+~~~
+
+>vamos a alumnos controller y rellenamos la funcion edit:
+
+~~~
+ public function edit(Alumno $alumno)
+    {
+        return view("alumnos.create", compact("alumno"));
+        //
+    }
+~~~
+
+
+>ahora vamos a crear un formulario para editar basandonos en el create.alumno y modificaremos:
+
+
+~~~
+cambiamos : value= "{{old("nombre")}}
+
+por:
+
+value= "{{$alumno->nombre}}"
+
+y asi con todos los campos.
+~~~
+
+>Y ahora queremos que se modifiquen los datos en la tabla que hemos creado para ello el encabezado de nuestra alumno.edit:
+
+~~~
+ <form method="POST" action="{{ route('alumnos.update', $alumno->id) }}" method="POST"
+              class="bg-white p-7 rounded-2xl">
+            @method("PUT")
+~~~
+
+>deberemos ir al controlador del alumno y :
+
+~~~
+ public function update(UpdateAlumnoRequest $request, Alumno $alumno)
+    {
+        $datos =$request->input();
+        $alumno->update($datos);
+        session()->flash("status", "Se ha actualizado el alumno $alumno->id , con nombre $alumno->nombre ");
+        return redirect()->route('alumnos.index');
+        //
+    }
+~~~
+
+>y ahora iremos al update para permitir la modificacion, request->auth->update
+
+~~~
+ public function authorize(): bool
+    {
+        return true;
+    }
+
+>y las reglas 
+
+public function rules(): array
+    {
+        return [
+            "nombre" => "string|required|min:5|max:50",
+            "email" =>"email|required|",
+            "edad" => "integer|required|between:1,120",
+            //
+        ];
+    }
+~~~
+
+>[!Caution]
+>Aqui se intenta utilizar el sweetalert2 pero dio algun fallo voy a poner lo que se hace dentro del codigo y procurare solucionarlo, "recuerdo que desde la creacion del docker no puedo ver lo que pasa en la pagina por que no tengo permisos y dan los fallos que se pueden ver en el blog de notas adjunto al proyecto"
+
+~~~
+pagina de sweetalert ->		weetalert2.github.io
+
+instalar:
+
+npm install sweetalert2
+
+importar el paquete en resources-> js debajo del import alpine poner:
+
+import Swal from 'sweetalert2'
+
+// or via CommonJS
+const Swal = require('sweetalert2')
+
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
+
+Ahora iremos a nuestro layout.blade y pondremos:
+@vite(["resourece.......", aqui "resource/js/app.js"]);
+
+y en nuestro edit.blade:
+
+<form onsubmi"(e)=>e.preventDefault()" method="POST" action="{{ route('alumnos.update', $alumno->id) }}" method="POST"
+
+y abajo del edit, en el boton de guardar modificamos:
+
+<input class="btn btn-primary m-2" type="submit" value="Guardar" />
+
+por esto:
+
+<button onclick="handleConfirm()" class="btn btn-primary m-2">Guardar</button>
+
+y crearemos un funcion para el handleconfirm
+
+<script>
+        function handleConfirm(){
+            title: 'Error!',
+                text: 'Do you want to continue',
+                icon: 'error',
+                confirmButtonText: 'Cool'
+        }
+    </script>
+
+~~~
+
+
+>Y ahora vamos a darle funcionalidad al boton de borrar, deberemos meter el boton en un formulario en el index.blade
+
+
+
+~~~
+<td>
+                <form action="{{route("$alumnos.destroy", $alumno->id)}}}" method="POST">
+                    @csrf
+                    @method("DELETE")
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                         class="w-8 h-8 text-red-900">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </button>
+                </form>
+</td>
+~~~
+
+>vamos al controlador del almuno a la funcion destroy y ponemos:
+
+
+~~~
+ public function destroy(Alumno $alumno)
+    {
+
+        session()->flash("status", "Se ha borrado el alumno $alumno->id con nombre: $alumno->nombre");
+        $alumno->delete();
+        return redirect()->route('alumnos.index');
+        //
+    }
+~~~
+
+
+
+
+
 
 >[!Warning]
 >AVISO
@@ -556,4 +744,14 @@ Terminal server:
  php artisan serve
 ~~~
 
+>[!Warning]
+>AVISO
+>Cuando queremos ver todas las rutas y todas las operaciones dentro de nuestro proyecto laravel abrimos la terminal y ponemos :
 
+~~~
+cd ruta del proyecto
+
+cd para entrar dentro del proyecto
+
+php artisan route:list --path"alumno"
+~~~
