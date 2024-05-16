@@ -51,5 +51,6 @@
     @endforeach
     </tbody>
 </table>
+        {{$alumnos->links()}}
     </div>
 </x-layouts.layout>
