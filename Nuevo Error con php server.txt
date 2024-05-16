@@ -1,0 +1,48 @@
+No se si fue cuando instale los idomas pero ahora cuando quiero levantar el servidor
+
+php artisan serve
+
+
+me da este error: 
+
+
+In sanctum.php line 21:
+                                             
+  Class "Laravel\Sanctum\Sanctum" not found  
+                                             
+
+
+he buscado por  y daban diferentes opciones: 
+
+
+composer remove laravel/sanctum    
+
+y
+
+composer dump-autoload  
+
+
+
+y al final he hecho: 
+
+
+composer require laravel/sanctum       y  me ha dado un nuevo error, no se si me ha cambiado ya toda la  confeccion de la pagina porque ahora me sale un index nuevo:
+
+Illuminate
+ \ 
+Database
+ \ 
+QueryException
+PHP 8.2.12
+11.6.0
+SQLSTATE[HY000] [1045] Access denied for user 'alumno'@'localhost' (using password: YES)
+SELECT
+  *
+FROM
+  `sessions`
+WHERE
+  `id` = IdHWYoszGWGgL5GvULxtVz9YtIR4whXUi3GSWYTs
+limit
+  1
+
+
