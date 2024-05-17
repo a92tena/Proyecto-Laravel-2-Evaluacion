@@ -725,10 +725,254 @@ y crearemos un funcion para el handleconfirm
         //
     }
 ~~~
+>[!Warning]
+>AVISO
+>Aqui nos da el siguiente fallo y no nos deja levantar el servidor:
+
+~~~
+ php artisan serve
+
+In sanctum.php line 21:
+                                             
+  Class "Laravel\Sanctum\Sanctum" not found  
+                                             
+~~~
+
+
+
+##Crear la parte de los profesores
+>Primero vamosa  crear nuestra tabla de profesores para ello:
+
+~~~
+php artisan make:model Profesor --all
+~~~
+
+>Nos ha tenido que crear todos los archivos relacionados con el profesor, ahora 
+>nos vamos a la migracions->create_profesor_table  :
+
+~~~
+public function up(): void{
+	// cambiamos el profesors de debajo por "profesores " como se puede ver
+	schema::create("profesores", function(blueprint $table){
+
+	$table->id();
+	$table->string("nombre");
+	$table->string("email")->unique();
+	$table->timestamps();
+
+});
+
+}
+~~~
+
+>Ahora vamos a factorires->factories.profesores
+
+~~~
+public function definition(): array{
+	return[
+		"nombre"=>fake()->name(),
+		"email"=>fake()->safeEmail()
+];
+}
+~~~
+
+
+>y nos vamos a las migrations->alumno para añadir la clave foranea  que sera el id del profesor para poder enlazar las dos tablas:
+
+~~~
+public function up(): void{
+	.-.......
+	$table->foreignId("profesor_id")->constrained("profesors")->nullOnDelete();
+
+}
+~~~
+
+>Recuerda que hemos modificaco a mano el nombre de la tabla de profesorews de profesors a profesores asi que vamos a tener que modificar el nombre en todas las partes para no >tener problemas 
+
+>vamos a providers->Appserviceprovider
+
+~~~
+public function boot(): void{
+	Pluralizer::useLanguage("spanish");
+}
+~~~
+
+>y vamos a models->user.php click derecho y modificamos 
+>user.php -> Usuario.php
+
+
+>Ahora vamos a database->migration->create_suers_table.php
+
+~~~
+ Schema::create('users', function (Blueprint $table)
+~~~
+
+
+>y lo cambiamos a :
+
+~~~
+ Schema::create('usuarios', function (Blueprint $table)
+~~~
+
+>Ahora nos vamos a models->Profesor.php
+
+~~~
+class Profesor extends Model {
+	use hasFactory
+	public function alumnos(){
+	return $this->hasMany(Alumno::class);
+	}
+
+}
+~~~
+
+>Ynos vamos al modelo del alumno:
+
+~~~
+class Alumno extends Model{
+
+	use factory
+
+	protected $fillable=["nombre", "edad","dni","email"];
+	public function profesor(){
+		return $this->belongsTo(Profesor::class);
+}
+
+}
+~~~
+
+>Y nos vamos a seeders-> databaseSeeder.php
+
+~~~
+abajo en 
+	$this->call([
+	ProfesorSeeder::class,
+	AlumnoSeeder::class
+])
+~~~
+
+>Y vamos a profesorSeeder.php
+
+
+~~~
+abajo :
+	public function run(): void{
+		Profesor::factory(10)->create();
+}
+~~~
+
+>Y nos vamos a alumnoseeder abajo para modificar la parte
+
+~~~
+	Importamos la clase profesor
+	$profesores = Profesor::all();
+	$profesor = $profesores->random();
+	alumno::factory(5)->create()->each(function(Alumno $alumno) use ($profesor){
+		$alumno->profesor_id= $profesor->id;
+}),
+~~~
+
+>VAmos a las migrations y modificamos el nombre de create_profesor para que se haga antes que la tabla alumno, recordemos que para hacer los alumnos se necesita un id del >profesor, click derecho sobre create_profesors
+
+>y cambiamos 2024_05_23 por 2024_03_23
+
+>ahora vamos a database->factories-userFactory.php click derecho y cambiamos
+
+>User por Usuario
+
+
+>Nos vamos a factories->alumnofactories
+
+
+~~~
+cargamos la clase profesor
+y añadimos  en la funcion definition():array
+
+	$profesores = Profesor::all();
+	$profesor = $profesores->random();
+	
+
+	return[
+	"email"=> fake()->email(),
+	"profesor_id"=> $profesor-id,
+}
+~~~
+
+
+>y ejecutamos la migracion 
+
+~~~
+php artisan migrate:fresh --seed
+~~~
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>Prueba para la tabla de profesores:
+
+
+     $alumnos = Alumno::paginate(10);
+        $numeroAlumnos = Alumno::where("DNI","$profesor->id")->count();
+        return view('alumnos.index', ["alumnos" => $alumnos], $numeroAlumnos);
+
+
+
+
+
+
+
+
+
+
+
+Numeracion de paginas (Paginacion)
+Vamos a modificar tanto la vista del index de la tabla de los alimnos como el controlador del alumno y aumentaremos el numero de alumnos que se creen para comprobar que estos
+cambios se realizan.
+
+Primero iremos a databsae-> Seeders->Seeders.alumno y modificamos el numero de alumnos
+
+~~~
+public function run(): void
+    {
+       Alumno::factory(50)->create();
+    }
+~~~
+
+Segundo paso, nos vamos al controlador-> controlador.alumno y modificamos
+
+~~~
+public function index()
+    {
+	//  CAmbiamos esta parte del all
+      //  $alumnos = Alumno::all(); 
+	// y ponemos 
+	$alumnos = Alumno::paginate(10);
+        return view('alumnos.index', ["alumnos" => $alumnos]);
+        //
+    }
+~~~
+
+Y por ultimo vamos a  resources->vioews->alumnos->index.blade.php y pasada la tabla añadimos al final
+
+~~~
+        </table>
+        {{$alumnos->links()}}
+    </div>
+~~~
 
 
 >[!Warning]
@@ -741,7 +985,7 @@ terminal npm:
 npm run dev
 
 Terminal server:
- php artisan serve
+php artisan serve
 ~~~
 
 >[!Warning]
